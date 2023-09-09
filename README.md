@@ -1,5 +1,5 @@
-# A Threads Like Bot
-This Chrome Exntension will Help you to Fullfill your Threads Bot Needs
+# A Instagram Like Bot
+This Chrome Exntension will Help you to Fullfill your Instagram Bot Needs
 # instalation
 1. Download the zip from the lastest release from the releases pannel
 2. Then Extract the zip anywhere, now you will be left with a folder called "InstagramLiker"
