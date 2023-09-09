@@ -1,24 +1,14 @@
-# New Project
+# A Threads Like Bot
+This Chrome Exntension will Help you to Fullfill your Threads Bot Needs
+# instalation
+1. Download the zip from the lastest release from the releases pannel
+2. Then Extract the zip anywhere, now you will be left with a folder called "InstagramLiker"
+3. Open up your browser of choice
+### Chrome
+- Step 1. look for three dots in the top right corner and click it
+- Step 2. goto - Settings > Extension (In sidebar)
+- Step 3. then, in the top right corner, click the button called "Developer mode"
+- Step 4. then a some Buttons would appear. click the one called "Load Unpacked"
+- Step 5. then locate and selected the FOLDER called "InstagramLiker"
+### Done!
 
-> ✨ Bootstrapped with Create Snowpack App (CSA).
-
-## Available Scripts
-
-### npm start
-
-Runs the app in the development mode.
-Open http://localhost:8080 to view it in the browser.
-
-The page will reload if you make edits.
-You will also see any lint errors in the console.
-
-### npm run build
-
-Builds a static copy of your site to the `build/` folder.
-Your app is ready to be deployed!
-
-**For the best production performance:** Add a build bundler plugin like [@snowpack/plugin-webpack](https://github.com/snowpackjs/snowpack/tree/main/plugins/plugin-webpack) or [snowpack-plugin-rollup-bundle](https://github.com/ParamagicDev/snowpack-plugin-rollup-bundle) to your `snowpack.config.mjs` config file.
-
-### Q: What about Eject?
-
-No eject needed! Snowpack guarantees zero lock-in, and CSA strives for the same.
