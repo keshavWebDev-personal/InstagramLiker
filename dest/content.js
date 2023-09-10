@@ -19,7 +19,7 @@ class RandomInterval {
     }
     start() {
         console.log("%cLikes Started", "background: #f1f7ff; color: black; padding:10px");
-        if (this.checkForLimit() || this.likesCount >= 49) {
+        if (this.checkForLimit() || this.likesCount >= 50) {
             this.stop();
             return;
         }
