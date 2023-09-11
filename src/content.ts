@@ -28,7 +28,10 @@ class RandomInterval {
 
     start() {
         console.log("%cLikes Started", "background: #f1f7ff; color: black; padding:10px");
+        this.startRec()
 
+    }
+    startRec() {
         if (this.checkForLimit() || this.likesCount >= 50) {
             this.stop()
             return
@@ -53,7 +56,7 @@ class RandomInterval {
 
             try {
                 const result: any = await next.do
-                this.start()
+                this.startRec()
 
             } catch (error) {
                 console.log(error);
@@ -65,7 +68,7 @@ class RandomInterval {
 
     stop() {
         console.log("%cLikes Stopped", "background: #f1f7ff; color: black; padding:10px");
-        
+
         clearTimeout(gloVar.intervalId as unknown as number)
         gloVar.intervalId = null
     }
@@ -136,6 +139,7 @@ chrome.runtime.onMessage.addListener((reqst, sender, sendResponse) => {
         const randomInterval = new RandomInterval(gloVar.minTime, gloVar.maxTime)
 
         if (!gloVar.intervalId) {
+
             randomInterval.start()
             sendResponse("Started")
         } else {

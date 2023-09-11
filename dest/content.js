@@ -19,6 +19,9 @@ class RandomInterval {
     }
     start() {
         console.log("%cLikes Started", "background: #f1f7ff; color: black; padding:10px");
+        this.startRec();
+    }
+    startRec() {
         if (this.checkForLimit() || this.likesCount >= 50) {
             this.stop();
             return;
@@ -38,7 +41,7 @@ class RandomInterval {
             const next = new Next();
             try {
                 const result = await next.do;
-                this.start();
+                this.startRec();
             }
             catch (error) {
                 console.log(error);
