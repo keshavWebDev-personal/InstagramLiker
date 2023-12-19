@@ -18,7 +18,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 console.log();
             }
         });
-        if (likes.count > likesLimit) {
+        if (likes.count >= likesLimit) {
             chrome.tabs.query({}, (tabs) => {
                 tabs.forEach((tab) => {
                     if (tab.url &&
