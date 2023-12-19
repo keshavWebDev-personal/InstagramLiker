@@ -3,7 +3,8 @@
     "name": "InstagramLiker",
     "version": "0.1",
     "permissions": [
-        "activeTab"
+        "activeTab",
+        "storage"
     ],
     "action": {
         "default_popup": "popup/popup.html",
@@ -26,5 +27,6 @@
     ],
     "background": {
         "service_worker": "dest/background.js"
-    }
+    },
+    "options_page": "options/options.html"
 }

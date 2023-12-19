@@ -2,27 +2,25 @@
 let gloVar = {
     minTime: 1000,
     maxTime: 3000,
-    intervalId: null
+    intervalId: null,
 };
 class RandomInterval {
     minTime;
     maxTime;
     isRunning;
     randTime;
-    likesCount;
     constructor(minTime, maxTime) {
         this.minTime = minTime;
         this.maxTime = maxTime;
         this.isRunning = false;
         this.randTime = 0;
-        this.likesCount = 0;
     }
     start() {
         console.log("%cLikes Started", "background: #f1f7ff; color: black; padding:10px");
         this.startRec();
     }
     startRec() {
-        if (this.checkForLimit() || this.likesCount >= 50) {
+        if (this.checkForLimit()) {
             this.stop();
             return;
         }
@@ -30,9 +28,8 @@ class RandomInterval {
         const like = new Like();
         if (like.do()) {
             //send the updated likes count to popup
-            this.likesCount = this.likesCount + 1;
-            this.sendUpdateToPopup({ likesCount: this.likesCount });
-            this.randTime = Math.floor((Math.random() * (this.maxTime - this.minTime)) + this.minTime);
+            chrome.runtime.sendMessage({ action: "Increment_LikesCount" });
+            this.randTime = Math.floor(Math.random() * (this.maxTime - this.minTime) + this.minTime);
         }
         else {
             this.randTime = 0;
@@ -54,9 +51,6 @@ class RandomInterval {
         clearTimeout(gloVar.intervalId);
         gloVar.intervalId = null;
     }
-    sendUpdateToPopup(message) {
-        chrome.runtime.sendMessage(message);
-    }
     checkForLimit() {
         let dialogs = document.querySelectorAll('div[role="dialog"]');
         if (dialogs[3]) {
@@ -72,7 +66,7 @@ class Like {
     }
     do() {
         if (this.element) {
-            this.element.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+            this.element.dispatchEvent(new MouseEvent("click", { bubbles: true }));
             return true;
         }
         else {
@@ -87,7 +81,7 @@ class Next {
         this.element = document.querySelector('svg[aria-label="Next"]');
         this.do = new Promise((resolve, reject) => {
             if (this.element) {
-                this.element.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+                this.element.dispatchEvent(new MouseEvent("click", { bubbles: true }));
                 resolve(true);
             }
             else {
@@ -102,7 +96,7 @@ class Next {
                         requestAnimationFrame(check);
                     }
                     else {
-                        this.element.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+                        this.element.dispatchEvent(new MouseEvent("click", { bubbles: true }));
                         resolve(true);
                     }
                 };

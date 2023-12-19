@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
 })
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
-    if (request.likesCount) {
+    if (request.action == "update_likesCount") {
         const likeCountElem = new LikeCountElem()
-        likeCountElem.update(request.likesCount)
+        likeCountElem.update(request.data)
     }
 })
