@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "version":"0.2.0",
+    "name": "InstagramLiker",
+    "description": "A Chrome extension to FullFill your Instagram MSG IT Wing Sewa needs",
+    "action":{
+        "default_popup": "index.html"
+    },
+    "permissions":[
+        "scripting",
+        "storage"
+    ],
+    "host_permissions": [
+        "https://www.instagram.com/*"
+    ],
+    "icons": {
+        "128": "icon128.png"
+    },
+    "background":{
+        "service_worker": "service-worker.js",
+        "type": "module"
+    }
+}

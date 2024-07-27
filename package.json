@@ -1,12 +1,26 @@
 {
+  "name": "instagramliker",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "start": "snowpack --watch",
-    "build": "snowpack build",
-    "test": "echo \"This template does not include a test runner by default.\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json"
   },
   "devDependencies": {
-    "@types/chrome": "^0.0.243",
-    "@types/node": "^20.6.0"
+    "@sveltejs/vite-plugin-svelte": "^3.1.1",
+    "@tsconfig/svelte": "^5.0.4",
+    "svelte": "^4.2.18",
+    "svelte-check": "^3.8.4",
+    "tslib": "^2.6.3",
+    "typescript": "^5.2.2",
+    "unocss": "^0.61.6",
+    "vite": "^5.3.4"
   },
-  "version": "0.1.1"
+  "dependencies": {
+    "@csstools/normalize.css": "^12.1.1",
+    "@unocss/reset": "^0.61.6"
+  }
 }
