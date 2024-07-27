@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@csstools/normalize.css": "^12.1.1",
+    "@types/chrome": "^0.0.269",
     "@unocss/reset": "^0.61.6"
   }
 }
