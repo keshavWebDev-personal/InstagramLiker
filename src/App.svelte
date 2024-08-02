@@ -5,14 +5,11 @@
 
     async function handleClick() {
         if (taskRunning) {
-            // A Message to Service Worker to Stop the Task Loop wiith
             chrome.runtime.sendMessage({
                 type: "action",
                 title: "Stop Liking",
             });
         } else {
-            // A Messgae to Service WOrker to Start the Task Loop
-            // Max time, Min Time, Likes Limit
             await chrome.runtime.sendMessage({
                 type: "action",
                 title: "Start Liking",
@@ -25,38 +22,44 @@
         // Flipping the boolean
         taskRunning = !taskRunning;
     }
-
-    chrome.runtime.onMessage.addListener(({ type, title, ...data }) => {
-        // Data Related Messages
-        if (type === "data") {
-            if (title == "Like Count") {
-                likesCount = data.data;
-            } else if (title == "Target Like Reached") {
-                taskRunning = false;
-            } else if (title == "reached end of page") {
-                taskRunning = false;
-            }
-        }
-    });
+    // chrome.runtime.onMessage.addListener(({ type, title, ...data }) => {
+    //     // Data Related Messages
+    //     if (type === "data") {
+    //         if (title == "Like Count") {
+    //             likesCount = data.data;
+    //         } else if (title == "Target Like Reached") {
+    //             taskRunning = false;
+    //         }else if (title == "reached end of page") {
+                
+    //             taskRunning = false;
+    //         }
+    //     }
+    // });
 
     window.onload = async () => {
-        const { likes } = await chrome.runtime.sendMessage({
-            type: "data",
-            title: "give me likes count",
-        });
-        likesCount = likes;
-
-        let [tab] = await chrome.tabs.query({ active: true });
-        if (!tab || !tab.id) {
-            console.log("Tab not found");
-            return;
+        // Getting Likes Count and Likes Limit from Service Worker
+        const res1 = await chrome.runtime.sendMessage({ type: "data", title: "give me likes count" });
+        const res2 = await chrome.runtime.sendMessage({ type: "data", title: "give me likes limit" });
+        likesCount = res1.likes;
+        likesLimit = res2.likesLimit
+        
+        // Getting Task Status from the Current Tab
+        let [tab] = await chrome.tabs.query({active: true})
+        if (!tab || !tab.id) { console.log("Tab not found"); return};
+        try {
+            let res = await chrome.tabs.sendMessage(tab.id, {type: "data", title: "give me task status",})
+            taskRunning = res.taskRunning
+        } catch (error) {
         }
-        let res = await chrome.tabs.sendMessage(tab.id, {
-            type: "data",
-            title: "give me task status",
-        });
-        taskRunning = res.taskRunning;
     };
+
+    function onLikeLimitChange() {
+        chrome.runtime.sendMessage({
+            type: "data",
+            title: "Updated Likes Limit",
+            likesLimit: likesLimit,
+        })
+    }
 </script>
 
 <main
@@ -109,7 +112,7 @@
                     <div
                         class:block={!taskRunning && likesCount > 0}
                         class:hidden={taskRunning || likesCount == 0 || likesCount < likesLimit}
-                        class="top-0 left-0 text-4rem leading-none font-extrabold  absolute text-success -z-1 animate-ping"
+                        class="top-0 left-0 text-4rem leading-none font-extrabold  absolute text-success -z-1 animate-ping blur-sm  "
                     >
                         {likesCount}
                     </div>
@@ -171,6 +174,7 @@
             class="input input-bordered w-full max-w-xs"
             bind:value={likesLimit}
             disabled={taskRunning}
+            on:change={onLikeLimitChange}
         />
     </label>
 </main>
