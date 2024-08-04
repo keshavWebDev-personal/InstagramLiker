@@ -160,9 +160,12 @@
         <div class="text-[0.7rem] text-gray-300">On Current Page</div>
     </div>
     <button
-        class="mt-4 mx-auto btn btn-outline btn-success rounded-2xl bg-[#485244]"
+        class="mt-4 w-20 mx-auto btn btn-outline rounded-2xl"
         on:click={handleClick}
+        class:btn-success={!taskRunning}
+        class:bg-[#485244]={!taskRunning}
         class:btn-error={taskRunning}
+        class:bg-[#583e3d]={taskRunning}
         disabled={likesLimit <= likesCount}
         
     >
