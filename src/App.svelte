@@ -29,15 +29,27 @@
         }
     }
     chrome.runtime.onMessage.addListener(({ type, title, ...data }) => {
-        // Data Related Messages
-        if (type === "data") {
-            if (title == "Like Count") {
-                likesCount = data.data;
-            } else if (title == "Target Like Reached") {
-                taskRunning = false;
-            }else if (title == "reached end of page") {
-                taskRunning = false;
-            }
+        switch (type) {
+            case "data":
+                switch (title) {
+                    case "Like Count":
+                        likesCount = data.data;
+                        break;
+                }
+                break;
+            case "info":
+                switch (title) {
+                    case "reached instagram like limit":
+                        taskRunning = false;
+                        break;
+                    case "reached end of page":
+                        taskRunning = false;
+                        break;
+                    case "Target Like Reached":
+                        taskRunning = false;
+                        break;
+                }
+                break;
         }
     });
 
