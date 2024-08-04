@@ -11,6 +11,7 @@ function webPageContext() {
     let taskRunning = false;
     let timeOutId: number | null = null;
     let interId:number | null = null
+    let raf:number | null = null;
 
     let getNextBtn = (): Promise<SVGElement> => {
         return new Promise((resolve, reject) => {
@@ -25,7 +26,7 @@ function webPageContext() {
                 likeElem = document.querySelector('svg[aria-label="Next"]');
                 if (!likeElem) {
                     i++;
-                    requestAnimationFrame(check);
+                    raf = requestAnimationFrame(check);
                 } else resolve(likeElem);
             };
             check();
@@ -72,6 +73,7 @@ function webPageContext() {
                 case "action":
                     switch (title) {
                         case "Stop Likes Task":
+                            if (raf) cancelAnimationFrame(raf);
                             if (interId) clearInterval(interId)
                             if (timeOutId) clearTimeout(timeOutId);
                             if (timeOutId || interId) {
