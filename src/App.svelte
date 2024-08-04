@@ -1,45 +1,55 @@
 <script lang="ts">
-    let likesCount = 50;
-    let likesLimit = 50;
+    let likesCount = 0;
+    let likesLimit = 500;
     let taskRunning = false;
+    let elements: Array<number> = [];
 
+    $: {
+        if (likesCount > 0) {
+            elements = [...elements, likesCount];
+        }
+    }
     async function handleClick() {
         if (taskRunning) {
-            chrome.runtime.sendMessage({
+            let {status} = await chrome.runtime.sendMessage({
                 type: "action",
                 title: "Stop Liking",
             });
+            taskRunning = !status;
+
         } else {
-            await chrome.runtime.sendMessage({
+            let {status} = await chrome.runtime.sendMessage({
                 type: "action",
                 title: "Start Liking",
                 maxTime: 3000,
                 minTime: 1000,
                 likesLimit: likesLimit,
             });
+            taskRunning = status
         }
-
-        // Flipping the boolean
-        taskRunning = !taskRunning;
     }
-    // chrome.runtime.onMessage.addListener(({ type, title, ...data }) => {
-    //     // Data Related Messages
-    //     if (type === "data") {
-    //         if (title == "Like Count") {
-    //             likesCount = data.data;
-    //         } else if (title == "Target Like Reached") {
-    //             taskRunning = false;
-    //         }else if (title == "reached end of page") {
-                
-    //             taskRunning = false;
-    //         }
-    //     }
-    // });
+    chrome.runtime.onMessage.addListener(({ type, title, ...data }) => {
+        // Data Related Messages
+        if (type === "data") {
+            if (title == "Like Count") {
+                likesCount = data.data;
+            } else if (title == "Target Like Reached") {
+                taskRunning = false;
+            }else if (title == "reached end of page") {
+                taskRunning = false;
+            }
+        }
+    });
 
     window.onload = async () => {
+        
+        // Setup the Webpage Context
+        await chrome.runtime.sendMessage({ type: "action", title: "setup webpage context" });
+        
         // Getting Likes Count and Likes Limit from Service Worker
         const res1 = await chrome.runtime.sendMessage({ type: "data", title: "give me likes count" });
         const res2 = await chrome.runtime.sendMessage({ type: "data", title: "give me likes limit" });
+        
         likesCount = res1.likes;
         likesLimit = res2.likesLimit
         
@@ -51,9 +61,10 @@
             taskRunning = res.taskRunning
         } catch (error) {
         }
+
     };
 
-    function onLikeLimitChange() {
+    function onLikeLimitChange() {        
         chrome.runtime.sendMessage({
             type: "data",
             title: "Updated Likes Limit",
@@ -74,7 +85,7 @@
         <div
             class=" z-10 px-3 py-1 flex bg-gradient-to-r from-[#604646] to-[#A67792] w-full rounded-2xl items-center h-22"
         >
-            <div class=" relative *:size-11">
+            <div class=" relative *:size-11 ">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -95,6 +106,19 @@
                         d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"
                     />
                 </svg>
+                {#each elements as element (element)}
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="top-22% -translate-y-50% absolute animate-ping animate-count-1 opacity-0 transform-origin-center color-#E65848"
+                    >
+                    <path
+                        d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"
+                    />
+                    </svg>
+                {/each}
+
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -174,7 +198,7 @@
             class="input input-bordered w-full max-w-xs"
             bind:value={likesLimit}
             disabled={taskRunning}
-            on:change={onLikeLimitChange}
+            on:input={onLikeLimitChange}
         />
     </label>
 </main>
