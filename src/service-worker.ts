@@ -1,4 +1,4 @@
-import { webPageContext } from './.ts';
+import { webPageContext } from './webPageContext.ts';
 
 let totalLikesCount = 0;
 let likesLimit = 0;
