@@ -1,11 +1,11 @@
-# A Threads Like Bot
+# A Instagram Like Bot
 
 - This Chrome Exntension will Help you to Fullfill your Instagram Sewa Needs
 
 # Usage Instruction
 
 - You need to be Logged into Instagram on Web
-- Open any Thread Profile and Click the `Start` Button on the Extension UI
+- Open any Instagram Profile, click on the first Post, Wait for Post to Popup in a window and Click the `Start` Button on the Extension UI
 
 # Instalation
 
