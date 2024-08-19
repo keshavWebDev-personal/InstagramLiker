@@ -27,7 +27,6 @@ function stopAllLikeTasksLoops():Promise<Boolean> {
             resolve(success)
         }
     })
-
 }
 
 async function startLiking_currPage(
