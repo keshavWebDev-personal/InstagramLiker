@@ -85,7 +85,7 @@ chrome.runtime.onMessage.addListener(({ type, title, ...data }, _, sendResponse)
                     (async () => {
                         let tabs = await chrome.tabs.query({});
                         tabs.forEach((tab) => {
-                            if (!setupTabs.includes(tab)){
+                            if (!setupTabs.some(setupTab => setupTab.id === tab.id)) {
                                 const {host_permissions} = chrome.runtime.getManifest();
                                 if (tab.id && tab.url?.match(host_permissions[0])){
                                     chrome.scripting.executeScript({
