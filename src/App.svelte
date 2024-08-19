@@ -1,6 +1,6 @@
 <script lang="ts">
     let likesCount = 0;
-    let likesLimit = 500;
+    let likesLimit = 50;
     let taskRunning = false;
     let elements: Array<number> = [];
 
@@ -62,8 +62,8 @@
         const res1 = await chrome.runtime.sendMessage({ type: "data", title: "give me likes count" });
         const res2 = await chrome.runtime.sendMessage({ type: "data", title: "give me likes limit" });
         
-        likesCount = res1.likes;
-        likesLimit = res2.likesLimit
+        likesCount = res1.likes || 0;
+        likesLimit = res2.likesLimit || 50;
         
         // Getting Task Status from the Current Tab
         let [tab] = await chrome.tabs.query({active: true})
