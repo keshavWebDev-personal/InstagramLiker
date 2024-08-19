@@ -79,38 +79,37 @@ export function webpageContext() {
     }
     chrome.runtime.onMessage.addListener(
         ({ type, title, ...data }, _, sendResponse) => {
-            switch (type) {
-                case "action":
-                    switch (title) {
-                        case "Stop Likes Task":
-                            stopLikeTask()
-                            if (timeOutId || interId) {
-                                taskRunning = false;
-                                sendResponse({ status: true})
-                            }else{
-                                sendResponse({ status: false})
-                            }
-                            break;
-                        case "Start Liking":
-                            try {
-                                likeTaskRecursive(data.maxTime, data.minTime);
-                                sendResponse({ status: true})
-                            } catch (error) {
-                                sendResponse({ status: false})
-                            }
-                            break
-                    }
-                    break;
-                case "data":
-                    switch (title) {
-                        case "give me task status":
-                            sendResponse({
-                                taskRunning: taskRunning,
-                            });
-                            break;
-                    }
-                    break;
-            }
+        switch (type) {
+            case "action":
+                switch (title) {
+                    case "Stop Likes Task":
+                        stopLikeTask()
+                        if (timeOutId || interId) {
+                            taskRunning = false;
+                            sendResponse({ status: true})
+                        }else{
+                            sendResponse({ status: false})
+                        }
+                        break;
+                    case "Start Liking":
+                        try {
+                            likeTaskRecursive(data.maxTime, data.minTime);
+                            sendResponse({ status: true})
+                        } catch (error) {
+                            sendResponse({ status: false})
+                        }
+                        break
+                }
+                break;
+            case "data":
+                switch (title) {
+                    case "give me task status":
+                        sendResponse({
+                            taskRunning: taskRunning,
+                        });
+                        break;
+                }
+                break;
         }
-    );
+    });
 };
