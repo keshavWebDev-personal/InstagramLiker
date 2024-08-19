@@ -1,4 +1,4 @@
-export function webPageContext() {
+export function webpageContext() {
     let randTime = 0;
     let taskRunning = false;
     let timeOutId: number | null = null;
@@ -31,7 +31,7 @@ export function webPageContext() {
         if (timeOutId) clearTimeout(timeOutId);
     }
 
-    let likeTaskRecursive = async (maxTime: number, minTime: number, likesLimit: number) => {
+    let likeTaskRecursive = async (maxTime: number, minTime: number) => {
         // A Check for Insta Saying STOP IT! via a Dialog on the UI
         let [,,,dialog] = document.querySelectorAll('div[role="dialog"]');
         if (dialog) {
@@ -65,7 +65,7 @@ export function webPageContext() {
             try {
                 const nextBtn = await getNextBtn()
                 nextBtn.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-                likeTaskRecursive(maxTime, minTime, likesLimit)                
+                likeTaskRecursive(maxTime, minTime)                
             } catch (error) {
                 console.log(error);
                 chrome.runtime.sendMessage({
@@ -93,7 +93,7 @@ export function webPageContext() {
                             break;
                         case "Start Liking":
                             try {
-                                likeTaskRecursive(data.maxTime, data.minTime, data.likesLimit);
+                                likeTaskRecursive(data.maxTime, data.minTime);
                                 sendResponse({ status: true})
                             } catch (error) {
                                 sendResponse({ status: false})
