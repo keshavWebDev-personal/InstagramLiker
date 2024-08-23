@@ -7,11 +7,7 @@
         "default_popup": "index.html"
     },
     "permissions":[
-        "scripting",
         "storage"
-    ],
-    "host_permissions": [
-        "https://www.instagram.com/*"
     ],
     "icons": {
         "128": "icon128.png"
@@ -19,5 +15,11 @@
     "background":{
         "service_worker": "service-worker.js",
         "type": "module"
-    }
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://www.instagram.com/*"],
+            "js": ["content-script.js"]
+        }
+    ]
 }

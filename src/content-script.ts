@@ -1,4 +1,4 @@
-export function webpageContext() {
+function webpageContext() {
     let randTime = 0;
     let taskRunning = false;
     let timeOutId: number | null = null;
@@ -56,7 +56,7 @@ export function webpageContext() {
                 title: "Did a like",
             });
             randTime = Math.floor(Math.random() * (maxTime - minTime) + minTime);
-            console.log("randTime: " + randTime + "Min: " + minTime + "Max: " + maxTime);
+            // console.log("randTime: " + randTime + "Min: " + minTime + "Max: " + maxTime);
         }else{
             randTime = 0
         }
@@ -92,12 +92,7 @@ export function webpageContext() {
                         }
                         break;
                     case "Start Liking":
-                        try {
-                            likeTaskRecursive(data.maxTime, data.minTime);
-                            sendResponse({ status: true})
-                        } catch (error) {
-                            sendResponse({ status: false})
-                        }
+                        likeTaskRecursive(data.maxTime, data.minTime);
                         break
                 }
                 break;
@@ -113,3 +108,7 @@ export function webpageContext() {
         }
     });
 };
+
+webpageContext()
+console.clear()
+console.log("Hello");
