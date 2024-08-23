@@ -18,14 +18,14 @@
             taskRunning = !status;
 
         } else {
-            let {status} = await chrome.runtime.sendMessage({
+            chrome.runtime.sendMessage({
                 type: "action",
                 title: "Start Liking",
                 maxTime: 3000,
                 minTime: 1000,
                 likesLimit: likesLimit,
             });
-            taskRunning = status
+            taskRunning = true;
         }
     }
     chrome.runtime.onMessage.addListener(({ type, title, ...data }) => {
@@ -54,16 +54,12 @@
     });
 
     window.onload = async () => {
-        
-        // Setup the Webpage Context
-        await chrome.runtime.sendMessage({ type: "action", title: "setup webpage context" });
-        
         // Getting Likes Count and Likes Limit from Service Worker
         const res1 = await chrome.runtime.sendMessage({ type: "data", title: "give me likes count" });
         const res2 = await chrome.runtime.sendMessage({ type: "data", title: "give me likes limit" });
         
-        likesCount = res1.likes || 0;
-        likesLimit = res2.likesLimit || 50;
+        if (!res1.failed) likesCount = res1.likes;
+        if (!res2.failed) likesLimit = res2.likesLimit;
         
         // Getting Task Status from the Current Tab
         let [tab] = await chrome.tabs.query({active: true})
