@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && bun run zip",
+    "build": "vite build && bun run buildCRX",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json",
-    "zip": "mkdir -p build && cd dist && zip -r ../build/threadsliker-v$npm_package_version.zip . && cd .."
+    "buildCRX": "mkdir -p build && bun run crx3 ./dist -z ./build/threadsliker-v$npm_package_version.zip -o ./build/threadsliker-v$npm_package_version.crx"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
