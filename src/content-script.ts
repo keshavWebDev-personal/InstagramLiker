@@ -26,9 +26,9 @@ function webpageContext() {
     };
     
     function stopLikeTask() {
-        if (raf) cancelAnimationFrame(raf);
-        if (interId) clearInterval(interId)
-        if (timeOutId) clearTimeout(timeOutId);
+        if (raf) cancelAnimationFrame(raf)
+        if (interId) clearInterval(interId); interId = null
+        if (timeOutId) clearTimeout(timeOutId); timeOutId = null
     }
 
     let likeTaskRecursive = async (maxTime: number, minTime: number) => {
@@ -84,7 +84,7 @@ function webpageContext() {
                 switch (title) {
                     case "Stop Likes Task":
                         stopLikeTask()
-                        if (timeOutId || interId) {
+                        if (!timeOutId || !interId) {
                             taskRunning = false;
                             sendResponse({ status: true})
                         }else{
@@ -110,5 +110,3 @@ function webpageContext() {
 };
 
 webpageContext()
-console.clear()
-console.log("Hello");
