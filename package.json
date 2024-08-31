@@ -8,7 +8,7 @@
     "build": "vite build && bun run buildCRX",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json && tsc -p tsconfig.node.json",
-    "buildCRX": "mkdir -p build && rm -rf ./build/* && bun run crx3 ./dist -z ./build/instagramliker-v$npm_package_version.zip -o ./build/instagramliker-v$npm_package_version.crx"
+    "buildCRX": "mkdir -p build && rm -rf ./build/* && bun run crx3 ./dist -z ./build/$npm_package_name-v$npm_package_version.zip -o ./build/$npm_package_name-v$npm_package_version.crx"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
