@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "version":"0.2.2",
+    "version":"0.2.3",
     "name": "InstagramLiker",
     "description": "A Chrome extension to FullFill your Instagram MSG IT Wing Sewa needs",
     "action":{
